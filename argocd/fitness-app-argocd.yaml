@@ -8,7 +8,7 @@ spec:
 
   source:
     # GitHub Pages URL (Helm repository)
-    repoURL: https://msocial123.github.io/Fitness-Tracker-Dynamic-Volumes
+    repoURL: https://Msocial123.github.io/Fitness-Tracker-Dynamic-Volumes
     chart: fitness-app-chart
     # Deploy latest released chart version
     targetRevision: "*"
