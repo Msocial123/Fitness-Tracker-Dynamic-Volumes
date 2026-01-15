@@ -3,9 +3,11 @@ namespace: fitness-ns
 fitnessApp:
   name: fitness-tracker-app
   replicas: 2
+
   image:
     repository: pulkit197/fitness_tracker-master-copy3-fitness-app
     tag: latest
+
   containerPort: 5000
 
   service:
@@ -32,14 +34,7 @@ fitnessApp:
 configMap:
   name: fitness-configmap
 
-storageClass:
-  name: managed-csi
-  provisioner: disk.csi.azure.com
-  reclaimPolicy: Retain
-  volumeBindingMode: WaitForFirstConsumer
-  allowExpansion: true
-  skuName: Premium_LRS
-
+# ✅ PVC only REFERENCES existing StorageClass (does NOT create it)
 fitnessPVC:
   name: fitness-tracker-pvc
   accessMode: ReadWriteMany
@@ -49,9 +44,11 @@ fitnessPVC:
 mongodb:
   name: mongodb
   replicas: 1
+
   image: mongo
   tag: 7-jammy
   containerPort: 27017
+
   service:
     name: mongodb-service
     type: ClusterIP
@@ -67,3 +64,4 @@ secret:
   name: mongodb-secret
   username: admin
   password: StrongPassword123!
+
