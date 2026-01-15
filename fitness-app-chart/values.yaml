@@ -1,0 +1,69 @@
+namespace: fitness-ns
+
+fitnessApp:
+  name: fitness-tracker-app
+  replicas: 2
+  image:
+    repository: pulkit197/fitness_tracker-master-copy3-fitness-app
+    tag: latest
+  containerPort: 5000
+
+  service:
+    name: fitness-tracker-service
+    type: LoadBalancer
+    port: 80
+    targetPort: 5000
+
+  env:
+    MONGODB_URI: mongodb://mongodb-service:27017/fitness-tracker
+    PORT: "5000"
+    HOST: "0.0.0.0"
+    NODE_ENV: production
+
+  datadog:
+    logsSource: nodejs
+    service1: fitness-tracker-service
+    service2: fitness-tracker-app
+    tracePort: "8126"
+    env: production
+    service: fitness-tracker-app
+    version: "1.0.0"
+
+configMap:
+  name: fitness-configmap
+
+storageClass:
+  name: managed-csi
+  provisioner: disk.csi.azure.com
+  reclaimPolicy: Retain
+  volumeBindingMode: WaitForFirstConsumer
+  allowExpansion: true
+  skuName: Premium_LRS
+
+fitnessPVC:
+  name: fitness-tracker-pvc
+  accessMode: ReadWriteMany
+  storageClassName: azurefile-csi
+  size: 10Gi
+
+mongodb:
+  name: mongodb
+  replicas: 1
+  image: mongo
+  tag: 7-jammy
+  containerPort: 27017
+  service:
+    name: mongodb-service
+    type: ClusterIP
+    port: 27017
+
+  pvc:
+    name: mongodb-pvc
+    accessMode: ReadWriteOnce
+    storageClassName: managed-csi
+    size: 20Gi
+
+secret:
+  name: mongodb-secret
+  username: admin
+  password: StrongPassword123!
