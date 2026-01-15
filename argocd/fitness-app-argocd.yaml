@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fitness-app
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    # GitHub Pages URL (Helm repository)
+    repoURL: https://msocial123.github.io/Fitness-Tracker-Dynamic-Volumes
+    chart: fitness-app-chart
+    # Deploy latest released chart version
+    targetRevision: "*"
+    helm:
+      valueFiles:
+        - values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: fitness-ns
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
