@@ -2,7 +2,7 @@ namespace: fitness-ns
 
 fitnessApp:
   name: fitness-tracker-app
-  replicas: 2
+  replicas: 5
 
   image:
     repository: pulkit197/fitness_tracker-master-copy3-fitness-app
@@ -43,7 +43,7 @@ fitnessPVC:
 
 mongodb:
   name: mongodb
-  replicas: 1
+  replicas: 2
 
   image: mongo
   tag: 7-jammy
