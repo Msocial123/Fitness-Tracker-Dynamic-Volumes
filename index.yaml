@@ -3,6 +3,16 @@ entries:
   fitness-app-chart:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2026-01-19T07:05:29.11723922Z"
+    description: A Helm chart for Kubernetes
+    digest: b457bdf4bdc7df126e1e5643d83407dbe8a716c020a6d3bcfdd3dfa5368a8810
+    name: fitness-app-chart
+    type: application
+    urls:
+    - https://github.com/Msocial123/Fitness-Tracker-Dynamic-Volumes/releases/download/fitness-app-chart-0.1.6/fitness-app-chart-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2026-01-15T12:35:04.345188441Z"
     description: A Helm chart for Kubernetes
     digest: 798f96cd256a7a22af616a0fbe58e9892718e9b2e23698ec3ea2a82721fc38c1
@@ -21,4 +31,4 @@ entries:
     urls:
     - https://github.com/Msocial123/Fitness-Tracker-Dynamic-Volumes/releases/download/fitness-app-chart-0.1.4/fitness-app-chart-0.1.4.tgz
     version: 0.1.4
-generated: "2026-01-15T12:35:04.34520397Z"
+generated: "2026-01-19T07:05:29.117251433Z"
