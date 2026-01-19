@@ -2,7 +2,7 @@ namespace: fitness-ns
 
 fitnessApp:
   name: fitness-tracker-app
-  replicas: 5
+  replicas: 2
 
   image:
     repository: pulkit197/fitness_tracker-master-copy3-fitness-app
