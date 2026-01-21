@@ -5,8 +5,8 @@ fitnessApp:
   replicas: 2
 
   image:
-    repository: pulkit197/fitness_tracker-master-copy3-fitness-app
-    tag: latest
+    repository: fitnessacr123.azurecr.io/fitness-app
+    tag: "1.0.0"
 
   containerPort: 5000
 
