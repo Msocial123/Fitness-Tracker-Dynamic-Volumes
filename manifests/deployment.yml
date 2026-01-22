@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: mfitnessapp 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mfitnessapp
+  template:
+    metadata:
+      labels:
+        app: mfitnessapp 
+    spec:
+      containers:
+        - name: mfitnessapp 
+          image: chandanacr.azurecr.io/mfitnessapp
+          ports:
+          - containerPort: 5000
