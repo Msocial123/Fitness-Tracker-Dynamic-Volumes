@@ -1,5 +1,5 @@
 trigger:
-- azure-argo-GA
+- azure-devops
 
 variables:
   imageName: fitness-app
@@ -18,7 +18,7 @@ steps:
     command: buildAndPush
     repository: $(imageName)
     dockerfile: Dockerfile
-    containerRegistry: ACR-Service-Connection
+    containerRegistry: azure-chandan-acr
     tags: |
       $(tag)
 
