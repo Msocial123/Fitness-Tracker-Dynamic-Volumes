@@ -11,6 +11,7 @@ pool:
 
 steps:
 - checkout: self
+  persistCredentials: true
 
 - task: Docker@2
   displayName: Build and Push Image
@@ -22,7 +23,6 @@ steps:
     tags: |
       $(tag)
 
-# Update Helm values.yaml
 - script: |
     echo "Updating Helm values.yaml"
 
@@ -31,8 +31,13 @@ steps:
     git config user.email "azure-devops@pipeline.com"
     git config user.name "azure-devops"
 
-    git checkout azure-devops
+    git fetch origin
+    git checkout -B azure-devops origin/azure-devops
+
     git add charts/fitness-app/values.yaml
     git commit -m "Update image tag to $(tag)"
-    git push origin azure-devops
+
+    git push https://$GITHUB_PAT@github.com/Msocial123/Fitness-Tracker-Dynamic-Volumes.git azure-devops
   displayName: Update Helm values
+  env:
+    GITHUB_PAT: $(GITHUB_PAT)
