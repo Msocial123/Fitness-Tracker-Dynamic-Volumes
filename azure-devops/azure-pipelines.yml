@@ -3,7 +3,7 @@ trigger:
 
 variables:
   imageName: fitness-app
-  acrLoginServer: fitnessacr123.azurecr.io
+  acrLoginServer: clahandevops123.azurecr.io
   tag: $(Build.BuildId)
 
 pool:
@@ -19,7 +19,7 @@ steps:
     command: buildAndPush
     repository: $(imageName)
     dockerfile: Dockerfile
-    containerRegistry: azure-chandan-acr
+    containerRegistry: clahandevops123
     tags: |
       $(tag)
 
