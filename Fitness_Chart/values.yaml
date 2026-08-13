@@ -1,0 +1,43 @@
+# Default values for the Fitness Tracker Helm chart
+# Update these values as needed for your environment.
+
+app:
+  name: fitness-tracker-app
+  replicaCount: 2
+  image:
+    repository: pulkit197/fitness_tracker-master-copy3-fitness-app
+    tag: latest
+    pullPolicy: IfNotPresent
+  containerPort: 5000
+  host: "0.0.0.0"
+  nodeEnv: production
+  mongodbUri: "mongodb://mongodb-service:27017/fitness-tracker"
+  env:
+    ddAgentHost: ""
+    ddTraceAgentPort: 8126
+    ddEnv: production
+    ddService: fitness-tracker-app
+    ddVersion: "1.0.0"
+
+service:
+  name: fitness-tracker-service
+  type: LoadBalancer
+  port: 80
+  targetPort: 5000
+
+mongodb:
+  name: mongodb
+  image: mongo:7-jammy
+  replicaCount: 1
+  port: 27017
+  service:
+    name: mongodb-service
+    type: ClusterIP
+    port: 27017
+  persistence:
+    enabled: true
+    mountPath: /data/db
+    size: 5Gi
+    storageClass: ""
+
+resources: {}

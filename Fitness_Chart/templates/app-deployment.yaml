@@ -1,60 +1,58 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fitness-tracker-app
+  name: {{ .Values.app.name }}
 spec:
-  replicas: 2
+  replicas: {{ .Values.app.replicaCount }}
   selector:
     matchLabels:
-      app: fitness-tracker-app
+      app: {{ .Values.app.name }}
   template:
     metadata:
       labels:
-        app: fitness-tracker-app
+        app: {{ .Values.app.name }}
       annotations:
-        ad.datadoghq.com/fitness-tracker-app.logs: >-
-          [{"source":"nodejs","service":"fitness-tracker-service"},
-           {"source":"nodejs","service":"fitness-tracker-app"}]
+        ad.datadoghq.com/{{ .Values.app.name }}.logs: >-
+          [{"source":"nodejs","service":"{{ .Values.app.env.ddService }}"},
+           {"source":"nodejs","service":"{{ .Values.app.name }}"}]
     spec:
       containers:
-        - name: fitness-tracker-app
-          image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest
+        - name: {{ .Values.app.name }}
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
           ports:
-            - containerPort: 5000
-          # ✔ All configMap vars removed
-          # ✔ Direct env variables added
+           - containerPort: {{ .Values.app.containerPort }}
           env:
-            - name: MONGODB_URI
-              value: "mongodb://mongodb-service:27017/fitness-tracker"
-            - name: PORT
-              value: "5000"
-            - name: HOST
-              value: "0.0.0.0"
-            - name: NODE_ENV
-              value: "production"
-            # Datadog APM (tracing) env variables
-            - name: DD_AGENT_HOST
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP
-            - name: DD_TRACE_AGENT_PORT
-              value: "8126"
-            - name: DD_ENV
-              value: "production"
-            - name: DD_SERVICE
-              value: "fitness-tracker-app"
-            - name: DD_VERSION
-              value: "1.0.0"
---- 
+           - name: MONGODB_URI
+             value: "{{ .Values.app.mongodbUri }}"
+           - name: PORT
+             value: "{{ .Values.app.containerPort }}"
+           - name: HOST
+             value: "{{ .Values.app.host }}"
+           - name: NODE_ENV
+             value: "{{ .Values.app.nodeEnv }}"
+           - name: DD_AGENT_HOST
+             valueFrom:
+               fieldRef:
+                 fieldPath: status.hostIP
+           - name: DD_TRACE_AGENT_PORT
+             value: "{{ .Values.app.env.ddTraceAgentPort }}"
+           - name: DD_ENV
+             value: "{{ .Values.app.env.ddEnv }}"
+           - name: DD_SERVICE
+             value: "{{ .Values.app.env.ddService }}"
+           - name: DD_VERSION
+             value: "{{ .Values.app.env.ddVersion }}"
+---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: fitness-tracker-service
+  name: {{ .Values.service.name }}
 spec:
   selector:
-    app: fitness-tracker-app
+    app: {{ .Values.app.name }}
   ports:
-  - port: 80
-    targetPort: 5000
-  type: LoadBalancer
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+  type: {{ .Values.service.type }}
